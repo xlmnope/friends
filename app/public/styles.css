@@ -1,0 +1,72 @@
+
+@media (min-width: 400px) { 
+  .selectorrow {
+    width: 100%;
+  }
+  .selector {
+    width: 20%;
+  }
+ }
+
+@media (min-width: 768px) {
+  .selectorrow {
+  width: 100%;
+  }
+  .selector {
+    width: 20%;
+  } 
+}
+
+@media (min-width: 992px) { 
+  .selectorrow {
+  width: 100%;
+  }
+  .selector {
+    width: 10%;
+  } 
+}
+
+.names {
+  margin-top: 50px;
+}
+.selector{
+  /*visibility: hidden;*/
+  padding: 5px 0px;
+  margin-top: 5px;
+  background-color: slategray;
+}
+
+.selector:hover {
+  cursor: pointer;
+  background-color: lightskyblue;
+}
+
+.selectorsml{
+  padding: 5px 0px;
+  margin-top: 5px;
+  background-color: slategray;
+  width: 20%;
+}
+
+.selectorsml:hover{
+  cursor: pointer;
+  background-color: lightskyblue;
+}
+
+.selected {
+  background-color: lightskyblue;
+}
+
+h1, .PackLogo {
+  font-family: 'Lilita One', cursive;
+}
+
+h1 {
+  margin-top: 50px;
+}
+
+h4{
+  font-family: 'Open Sans', sans-serif;
+
+}
+

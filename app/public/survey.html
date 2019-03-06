@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PACK Dog friend finder</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Lilita+One|Open+Sans" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  </head>
+
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand PackLogo" href="#">PACK</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+           <!-- <div class="navbar-nav">
+              <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            </div>
+            -->
+            
+          </div>
+          
+            
+        </nav>
+
+    <div class ="container-fluid">
+      <div class="row p0 text-center justify-content-center">
+          <div class="col-sm-6 names" id="names">
+              <div class="question1"><h4></h4></div>
+
+              <div class="answer1div">
+              <form>
+
+              </div>
+              <div class="question2"><h4></h4></div>
+              <div class="answer2div">
+              </div>
+            </form>
+          </div>
+          
+        <div class="col-sm-12">
+          <h1><div class="num"></h1></div>
+          <h4><div class= "question"></h4></div>
+        </div>
+      </div>
+      <div class="row selectorrow no-gutters text-center justify-content-center text-white">
+          
+      </div>
+      <div class="row justify-content-center">
+          <button type="button" class="btn-sm buttonsubmit btn-dark">Next</button>
+      </div>
+    </div>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+  </body>
+
+  <script type="text/javascript">
+  var questionnum = 0; 
+  var questionnumber =questionnum+1;
+  var questionarr = ["I consider myself adventurous", "I consider myself social", "I consider myself active", "I see myself as introverted", "My dog plays well with small dogs", "My dogs plays well with large dogs", "My dog is aggresive towards strangers"]
+  var basicinfo = []
+  var answerarr=[];
+
+  showBasicInfoQ();
+  function showBasicInfoQ(){
+    $(".question1").text("What's your name?");
+    $(".question2").text("What's your dogs name?");
+    $(".answer1div").append(' <div class="form-group"><input type="text" class="form-control" id="humanname" placeholder="Antonio"></div>');
+    $(".answer2div").append('<div class="form-group"><input type="text" class="form-control" id="dogname" placeholder="Spike"></div>');
+    //input field
+    collectdata();
+  };
+  function collectdata(){
+    $( ".buttonsubmit" ).on( "click.collectdata", function() {
+    var dogname = $("#dogname").val();
+    var humanname = $("#humanname").val();
+    basicinfo.push(humanname, dogname);
+    console.log(basicinfo);
+    nextq();
+    $( ".buttonsubmit" ).off(".collectdata");
+    });
+  }
+  function nextq(){
+    $(".question1").text("What size is your dog?");
+    //small, med, large
+    $(".answer1div").html('');
+    $(".answer1div").append('<div class="row selectorrow no-gutters text-center justify-content-center text-white"> <div class="border selectorsml">Small</div> <div class="border selectorsml">Medium</div> <div class="border selectorsml">Large</div></div>');
+    $(".selector").show();
+    $(".answer2div").html('');
+
+    $(".question2").text("What breed is your dog?");
+    //input box
+    $(".answer2div").append(' <div class="form-group"><input type="text" class="form-control" id="breed" placeholder="Golden Retriever"></div>');
+    var dogsml
+    $( ".selectorsml" ).on( "click.sml", function() {
+      $(this).addClass("selected");
+      dogsml = $(this).val().trim();
+    });
+    collectdata2(dogsml);
+    
+    }
+    
+    
+    function collectdata2(dogsml) {
+        $(".buttonsubmit" ).on( "click.coll2", function() {
+        var humanname = $("#breed").val();
+        basicinfo.push(dogsml, humanname);
+        console.log("basic info: ", basicinfo);
+        $(".names").remove();
+        if (surveystarted===false){
+          console.log("if surveystarted is 0 startsurvey();")
+          startsurvey();
+        }
+        $(".buttonsubmit" ).off(".coll2");
+      });
+    }
+
+  
+
+  
+  var surveystarted = false;
+
+
+
+  function startsurvey(){
+    surveystarted=true;
+    $(".num").text("0" + questionnumber + ".");
+    $(".question").text(questionarr[questionnum]);
+    $(".selectorrow").html('');
+    $(".selectorrow").append('<div class="  border selector">1</div><div class="  border selector">2</div><div class=" border selector">3</div><div class="  border selector">4</div><div class="  border selector">5</div>');
+    bindSelector();
+    bindButton();
+
+  }
+    function bindSelector(){
+      $( ".selector" ).on( "click", function() {
+        $(this).addClass("selected");
+        var selectednum = $(".selected");
+        //make it so that only the last selected has a class. if user clicks one and then another, class is removed from first and added to second.
+        console.log(selectednum.length);
+        if (selectednum.length > 1){
+          $('.selected').eq(0).removeClass('selected');
+        }
+      });
+    }
+
+    function bindButton(){
+      $( ".buttonsubmit" ).on( "click", function() {
+        console.log("selected class: ", $(".selected"));
+        var answer = $(".selected").text().trim();
+        console.log("answer: ", answer)
+        answerarr.push(answer);
+        console.log(answerarr);
+        questionnum++;
+        questionnumber++;
+        if (questionnumber < questionarr.length ) {
+          console.log("nextquestion click handler");
+          nextquestion();
+        }
+        if (questionnumber === questionarr.length){
+          endsurvey();
+          
+        }
+      
+      });
+    }
+  
+  function nextquestion(){
+    $(".num").text("0" + questionnumber + ".");
+    $(".question").text(questionarr[questionnum]);
+    $('.selected').removeClass('selected');
+  }
+
+  function endsurvey(){
+    $(".num").text("Thanks!");
+    $(".question").text("");
+    $(".buttonsubmit").hide(); 
+    $('.selector').hide();
+
+
+    //export array
+    //show results
+    
+  }
+
+
+  </script>
+</html>
+
