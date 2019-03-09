@@ -6,7 +6,9 @@
 var express = require("express");
 var path = require("path");
 
-var HTMLroutes = require('./routing/htmlRoutes.js');
+var createHtmlRoutes = require('./app/routing/htmlRoutes.js');
+var createAPIRoutes = require('./app/routing/apiRoutes.js');
+
 
 // Sets up the Express App
 // =============================================================
@@ -23,4 +25,8 @@ app.use(express.json());
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
+app.use(express.static('./app/public'))
 
+
+createHtmlRoutes(app);
+createAPIRoutes(app);

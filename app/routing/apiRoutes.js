@@ -4,35 +4,48 @@
 var path = require('path');
 
 // Import the list of friend entries
-var friends = require('../data/friends.js');
+var packmembers = require('../data/friends.js');
+
 
 module.exports = function(app) {
   //  display JSON of all possible friends.
   app.get("/api/friends", function(req, res) {
-    return res.json(packmembers);
+     res.json(friends);
   });
 
+  app.post('/api/friends', function(req, res) {
+		// Capture the user input object
+		var userInput = req.body;
 
-  // handle incoming survey results.
-  // handle  compatibility logic.
+		var userResponses = userInput.scores;
 
-  app.post("/api/friends", function(req, res) {
-    // req.body hosts is equal to the JSON post sent from the user
-    // This works because of our body parsing middleware
-    var newfriend= req.body;
+		// Compute best friend match
+    var matchName = '';
+    var dogMatchName = '';
+		//var matchImage = '';
+		var totalDifference = 10000; // Make the initial value big for comparison
 
-    // Using a RegEx Pattern to remove spaces from newCharacter
-    newfriend.routeName = newfriend.humanName.replace(/\s+/g, "").toLowerCase();
-    newfriend.humanName = newfriend.humanName.replace(/\s+/g, "").toLowerCase();
-    // newfriend.dogs[i].name = newfriend.dog[0].name.replace(/\s+/g, "").toLowerCase();
-    // newfriend.dogs[i].size = 
+		// Examine all existing friends in the list
+		for (var i = 0; i < packmembers.length; i++) {
 
-  console.log(newfriend);
+			// Compute differenes for each question
+			var diff = 0;
+			for (var j = 0; j < userResponses.length; j++) {
+				diff += Math.abs(packmembers[i].scores[j] - userResponses[j]);
+			}
 
-  //add new friend to pack 
-  packmembers.push(newfriend);
+			// If lowest difference, record the friend match
+			if (diff < totalDifference) {
+				totalDifference = diff;
+        matchName = packmembers[i].humanName;
+        dogMatchName = packmembers[i].dogs[0].name;
+			//	matchImage = friends[i].photo;
+			}
+		}
 
-  res.json(newfriend);
+  
+  res.json({status: 'OK', matchName: matchName, dogMatchName: dogMatchName}); //add matchImage: matchImage}); later
+
 });
 
 }

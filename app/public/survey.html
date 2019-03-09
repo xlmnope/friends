@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Lilita+One|Open+Sans" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -71,7 +71,8 @@
   <script type="text/javascript">
   var questionnum = 0; 
   var questionnumber =questionnum+1;
-  var questionarr = ["I consider myself adventurous", "I consider myself social", "I consider myself active", "I see myself as introverted", "My dog plays well with small dogs", "My dogs plays well with large dogs", "My dog is aggresive towards strangers"]
+  //later use dogs name in the survey
+  var questionarr = ["I consider myself adventurous", "I consider myself social", "I consider myself active", "I see myself as introverted", "My dog plays well with small dogs", "My dog plays well with large dogs", "My dog is aggresive towards strangers"]
   var basicinfo = []
   var answerarr=[];
 
@@ -89,7 +90,6 @@
     var dogname = $("#dogname").val();
     var humanname = $("#humanname").val();
     basicinfo.push(humanname, dogname);
-    console.log(basicinfo);
     nextq();
     $( ".buttonsubmit" ).off(".collectdata");
     });
@@ -108,9 +108,10 @@
     var dogsml
     $( ".selectorsml" ).on( "click.sml", function() {
       $(this).addClass("selected");
-      dogsml = $(this).val().trim();
+      dogsml = $(this).text().trim();
+      collectdata2(dogsml);
+
     });
-    collectdata2(dogsml);
     
     }
     
@@ -119,10 +120,8 @@
         $(".buttonsubmit" ).on( "click.coll2", function() {
         var humanname = $("#breed").val();
         basicinfo.push(dogsml, humanname);
-        console.log("basic info: ", basicinfo);
         $(".names").remove();
         if (surveystarted===false){
-          console.log("if surveystarted is 0 startsurvey();")
           startsurvey();
         }
         $(".buttonsubmit" ).off(".coll2");
@@ -186,16 +185,33 @@
   }
 
   function endsurvey(){
-    $(".num").text("Thanks!");
+    $(".num").text("Thanks! Your match is...");
     $(".question").text("");
     $(".buttonsubmit").hide(); 
     $('.selector').hide();
+    //combine answerarr and basic info into 1 array
+    var friend = {
+        humanName: basicinfo[0],
+        dogs: [{ 
+          name: basicinfo[1],
+          size: basicinfo[2],
+          breed: basicinfo[3],
+        }],
+				//photo: $('#photo').val().trim(),
+				scores: answerarr
+			};
+    console.log(friend);
+    //Add to friends list
+    var currentURL = window.location.origin;
+			$.post(currentURL + '/api/friends', friend, function(data) {
+      			// console.log('response = ' + JSON.stringify(data));
+            //show results.. do image later $("#matchimage").attr("src", data.matchImage);
+          $(".question").html(data.matchName + " and " + data.dogMatchName + "!");
 
-
-    //export array
-    //show results
+      		});
+		}
     
-  }
+  
 
 
   </script>

@@ -2,7 +2,6 @@
 // =============================================================
 var packmembers = [
   {
-    routeName: "Lisa",
     humanName: "Lisa",
     dogs: [ {
       name: "Hana",
@@ -15,12 +14,11 @@ var packmembers = [
       breed: ["Mutt", "Louisiana Catahoula Leopard dog", "American Pit Bull Terrier"]
      },
     ],
-    social: 4,
-    active: 2
+    scores:[1,2,3,4,5,4,4,5,5,3 ]
+
   },
 
   {
-    routeName: "stacy",
     humanName: "Stacy",
     dogs: [ {
       name: "Roxy",
@@ -28,7 +26,8 @@ var packmembers = [
       breed: ["Cavalier King Charles Spaniel"]
     } ],
     
-    social: 5,
-    active: 3,
+    scores:[5,3,2,1,3,2,2,4,5,3 ]
   },
 ]
+
+module.exports = packmembers;
